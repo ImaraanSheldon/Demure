@@ -9,7 +9,7 @@
         <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>+-
+        <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>
     </div>

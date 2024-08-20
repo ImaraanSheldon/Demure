@@ -1,35 +1,60 @@
 <template>
-    <button class="btn menubtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling"><i class="fa-solid fa-bars"></i>
-    </button>
-
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
-        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div class="offcanvas-header">
-            <router-link to="/" id="nav-logo">
-                <img src="" alt="logo">
-            </router-link>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <nav class="navbar navbar-danger bg-danger bg-opacity-125 sticky-top">
+      <div class="container-fluid justify-content-between">
+        <img
+          src="https://mohammad-mohamed.github.io/hostedImages/images/JS_EOMP/Icon/falafel_icon.jpg"
+          alt="Logo"
+          class="navbar-brand"
+        />
+        <div class="collapse" id="navbarToggleExternalContent" data-bs-theme="dark">
+          <nav class="navbar navbar-dark bg-danger">
+            <div class="container-fluid">
+              <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item">
+                  <router-link class="nav-link me-5" to="/">Home</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link me-5" to="/about">About Us</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link me-5" to="/products">Product</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link me-5" to="/admin">Admin</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link class="nav-link me-5" to="/contact">Contact</router-link>
+                </li>
+              </ul>
+            </div>
+          </nav>
         </div>
-        <div class="offcanvas-body">
-            <ul id="list">
-                <li><router-link to="/" id="nav-item">Home</router-link></li>
-                <li><router-link to="/about" id="nav-item">About</router-link></li>
-                <li><router-link to="/products" id="nav-item">Store</router-link></li>
-                <li><router-link to="/admin" id="nav-item">Admin</router-link></li>
-                <li><router-link to="/contact" id="nav-item">Contact Us</router-link></li>
-            </ul>
-        </div>
-    </div>
-</template>
-<script>
-export default {
-    name: 'NavBarComp'
-}
-</script>
-
-<style>
-
-
-
-</style>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </template>
+  
+  <script>
+  export default {};
+  </script>
+  
+  <style scoped>
+  .navbar-brand {
+    width: 60px;
+  }
+  
+  .nav-link {
+    margin-right: 1.25rem; /* equivalent to me-5 in Bootstrap */
+  }
+  </style>
+  

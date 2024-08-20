@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid" id="full-footer">
-        <img src="https://iili.io/JGNgqF4.png" alt="nav-logo">
+        <img src="" alt="nav-logo">
         <div class="container links">
             <p>Quick Links</p>
             <router-link to="/" id="link">Home</router-link>
