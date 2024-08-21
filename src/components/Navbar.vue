@@ -38,8 +38,8 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/shop" class="nav-link">
-                <span class="nav-link-text">shop</span>
+              <router-link to="/products" class="nav-link">
+                <span class="nav-link-text">store</span>
               </router-link>
             </li>
             <li class="nav-item">
