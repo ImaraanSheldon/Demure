@@ -16,7 +16,7 @@
             </button>
             <li><router-link to="/" class="nav-link">home</router-link></li>
             <li><router-link to="/about" class="nav-link">about</router-link></li>
-            <li><router-link to="/shop" class="nav-link">shop</router-link></li>
+            <li><router-link to="/products" class="nav-link">shop</router-link></li>
             <li><router-link to="/admin" class="nav-link">admin</router-link></li>
             <li><router-link to="/contact" class="nav-link">contact</router-link></li>
           </ul>
@@ -56,14 +56,14 @@
           <!-- end of nav list -->
 
           <!-- Account icons -->
-          <div class="d-flex">
+          <!-- <div class="d-flex">
             <router-link to="/profile" class="btn text-white">
               <i class="fas fa-person"></i>
             </router-link>
             <router-link to="/cart" class="btn text-white ms-2">
               <i class="fas fa-shopping-basket"></i>
             </router-link>
-          </div>
+          </div> -->
           <!-- end of account icons -->
         </div>
         <!-- end of main navigation list -->

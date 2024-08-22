@@ -1,76 +1,84 @@
 <template>
-    <div class="container-fluid" id="Products">
-        <div class="search container">
-            <input type="text" name="search" v-model="search" @input="searchProd()" id="searchBar" placeholder="Name/Category">
-            <button id="sort" type="button" @click="sortPrice()">Sort By Price</button>
+    <div class="products-view">
+      <h1>Products</h1>
+      <div class="products-grid">
+        <div v-for="product in products" :key="product.prodID" class="product-card">
+          <img :src="product.prodUrl" :alt="product.prodName" class="product-image" />
+          <div class="product-details">
+            <h2 class="product-name">{{ product.prodName }}</h2>
+            <p class="product-category">{{ product.Category }}</p>
+            <p class="product-quantity">Quantity: {{ product.quantity }}</p>
+            <p class="product-amount">${{ product.amount }}</p>
+          </div>
         </div>
-        <div class="row" v-if="products" id="prod-cards">
-            <card v-for="product in searchProd() || sortPrice()" :key="product.prodID">
-                <template #prod-img>
-                    <img class="prod-img" :src="product.prodUrl" loading="lazy">
-                </template>
-                <template #prod-title>
-                    {{ product.prodName }}
-                </template>
-                <template #Desc>
-                    <p>
-                        Category: {{ product.category }}
-                    </p>
-                    <p>
-                        Amount: R{{ product.amount }}
-                    </p>
-                    <p>
-                        Quantity: {{ product.quantity }}
-                    </p>
-                    <router-link :to="{ name: 'product', params: { id: product.prodID } }" id="see-more">View
-                        More</router-link>
-                </template>
-            </card>
-        </div>
-        <div class="row" v-else>
-            <div class="lead">
-                <spinner />
-            </div>
-        </div>
+      </div>
     </div>
-</template>
-
-<script>
-import card from '@/components/Card.vue';
-import spinner from '@/components/Spinner.vue';
-export default {
-    components: {
-        card,
-        spinner
+  </template>
+  
+  <script>
+  import { computed, onMounted } from 'vue';
+  import { useStore } from 'vuex';
+  
+  export default {
+    setup() {
+      const store = useStore();
+  
+      onMounted(() => {
+        store.dispatch('fetchProducts');
+      });
+  
+      const products = computed(() => store.getters.allProducts);
+  
+      return {
+        products,
+      };
     },
-    data() {
-        return {
-            search: ''
-        }
-    },
-    methods: {
-        searchProd() {
-            let furniture = this.$store.state.products;
-            let find = this.search;
-            let found = furniture.filter(prod => {
-                return prod.prodName.toLowerCase().includes(find.toLowerCase()) || prod.category.toLowerCase().includes(find.toLowerCase());
-            });
-            return found
-        },
-        sortPrice() {
-            let unsorted = this.$store.state.products
-            if (unsorted){
-                unsorted.sort((a, b) => a.amount - b.amount)
-            }
-        }
-    },
-    computed: {
-        products() {
-            return this.$store.state.products
-        }
-    },
-    mounted() {
-        this.$store.dispatch('fetchProducts')
-    }
-}
-</script>
+  };
+  </script>
+  
+  <style scoped>
+  .products-view {
+    padding: 2rem;
+    background-color: var(--light-grey-color);
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .product-card {
+    background-color: var(--white-color);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .product-details {
+    padding: 1rem;
+  }
+  
+  .product-name {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-category,
+  .product-quantity,
+  .product-amount {
+    margin: 0.25rem 0;
+  }
+  </style>
+  

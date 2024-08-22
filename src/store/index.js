@@ -1,244 +1,102 @@
-import { createStore } from "vuex";
-import axios from "axios";
-import sweet from "sweetalert";
-import { useCookies } from "vue3-cookies";
-const { cookies } = useCookies();
-const dbURL = "https://demure-1.onrender.com/";
+import { createStore } from 'vuex';
+import axios from 'axios';
 
 export default createStore({
   state: {
-    users: null,
-    user: null,
-    products: null,
-    product: "",
+    products: [],
+    product: null, // To store a single product
   },
-  getters: {},
+  getters: {
+    allProducts: (state) => state.products,
+    productById: (state) => (id) => state.products.find((product) => product.prodID === id),
+  },
   mutations: {
-    setUsers(state, value) {
-      state.users = value;
+    setProducts(state, products) {
+      state.products = products;
     },
-    setUser(state, value) {
-      state.user = value;
+    setProduct(state, product) {
+      state.product = product;
     },
-    setProducts(state, value) {
-      state.products = value;
+    addProduct(state, product) {
+      state.products.push(product);
     },
-    setProduct(state, value) {
-      state.product = value;
+    updateProduct(state, updatedProduct) {
+      const index = state.products.findIndex((product) => product.prodID === updatedProduct.prodID);
+      if (index !== -1) {
+        state.products.splice(index, 1, updatedProduct);
+      }
+    },
+    deleteProduct(state, prodID) {
+      state.products = state.products.filter((product) => product.prodID !== prodID);
     },
   },
   actions: {
-    async register(context, payload) {
+    async fetchProducts({ commit }) {
       try {
-        let msg = (await axios.post(`${dbURL}users/`, payload)).data;
-        if (msg) {
-          context.dispatch("fetchUsers");
-          sweet({
-            title: "Sign Up",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload()
-          // router.push({ name: "login" });
-        }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "Please try again at a different time",
-          icon: "error",
-          timer: 4000,
-        });
-      }
-    },
-    async fetchUsers(context) {
-      try {
-        let results = (await axios.get(`${dbURL}users`)).data;
-        if (results) {
-          context.commit("setUsers", results);
-          // console.log(results)
-        }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "An error occured while retrieving Users",
-          icon: "error",
-          timer: 2000,
-        });
-      }
-    },
-    async fetchUser(context, payload) {
-      try {
-        let result = (await axios.get(`${dbURL}users/${payload.id}`)).data;
-        if (result) {
-          context.commit("setUser", result);
+        const response = await axios.get('https://demure-1.onrender.com/product');
+        if (response.status === 200) {
+          commit('setProducts', response.data.results);
         } else {
-          sweet({
-            title: "Retrieving a single user",
-            text: "User not found",
-            icon: "info",
-            timer: 4000,
-          });
+          console.error('Failed to fetch products:', response.statusText);
         }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "this user was not found.",
-          icon: "error",
-          timer: 4000,
-        });
+      } catch (error) {
+        console.error('Error fetching products:', error);
       }
     },
-    async updateUser(context, payload) {
+
+    async fetchProductById({ commit }, prodID) {
       try {
-        let msg = await axios.patch(`${dbURL}users/${payload.userID}`, payload);
-        if (msg) {
-          context.dispatch("fetchUsers");
-          sweet({
-            title: "Updated this user",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload()
-        }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "An error occurred while updating this user.",
-          icon: "error",
-          timer: 4000,
-        });
-      }
-    },
-    async deleteUser(context, payload) {
-      try {
-        let msg = await axios.delete(`${dbURL}users/${payload}`);
-        if (msg) {
-          context.dispatch("fetchUsers");
-          sweet({
-            title: "Deleted user",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload()
-        }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "An error occurred while trying to delete this user.",
-          icon: "error",
-          timer: 4000,
-        });
-      }
-    },
-    async fetchProducts(context) {
-      try {
-        let results  = (await axios.get(`${dbURL}products`)).data;
-        if (results) {
-          context.commit("setProducts", results);
-        }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "An error occured while trying to retrieve Products",
-          icon: "error",
-          timer: 4000,
-        });
-      }
-    },
-    async fetchProduct(context, payload) {
-      try {
-        let result = (await axios.get(`${dbURL}products/${payload.id}`))
-          .data;
-        if (result) {
-          context.commit("setProduct", result);
+        const response = await axios.get(`https://demure-1.onrender.com/product/${prodID}`);
+        if (response.status === 200) {
+          commit('setProduct', response.data);
         } else {
-          sweet.alert({
-            title: "Retrieve a single product",
-            text: "This product was not found",
-            icon: "info",
-            timer: 4000,
-          });
+          console.error('Failed to fetch product:', response.statusText);
         }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "this product was not found.",
-          icon: "error",
-          timer: 4000,
-        });
+      } catch (error) {
+        console.error('Error fetching product:', error);
       }
     },
-    async addProduct(context, payload) {
+
+    async addProduct({ commit }, productData) {
       try {
-        let msg = (await axios.post(`${dbURL}products/`, payload)).data;
-        if (msg) {
-          context.dispatch("fetchProducts");
-          sweet({
-            title: "Add Product",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload()
-          
+        const response = await axios.post('https://demure-1.onrender.com/product/add', productData);
+        if (response.status === 201) {
+          commit('addProduct', response.data);
+        } else {
+          console.error('Failed to add product:', response.statusText);
         }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "Please try again at a different time",
-          icon: "error",
-          timer: 4000,
-        });
+      } catch (error) {
+        console.error('Error adding product:', error);
       }
     },
-    async editProduct(context, payload) {
+
+    async updateProduct({ commit }, { prodID, productData }) {
       try {
-        let prodID = payload.prodID;
-        let msg = await axios.patch(`${dbURL}products/${prodID}`, payload);
-        if (msg) {
-          context.dispatch("fetchProducts");
-          sweet({
-            title: "Edit Product",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload() 
+        const response = await axios.patch(`https://demure-1.onrender.com/product/${prodID}`, productData);
+        if (response.status === 200) {
+          commit('updateProduct', response.data);
+        } else {
+          console.error('Failed to update product:', response.statusText);
         }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "Please try again at a different time",
-          icon: "error",
-          timer: 4000,
-        });
+      } catch (error) {
+        console.error('Error updating product:', error);
       }
     },
-    async deleteProduct(context, payload) {
+
+    async deleteProduct({ commit }, prodID) {
       try {
-        let msg = await axios.delete(`${dbURL}products/${payload}`);
-        if (msg) {
-          context.dispatch("fetchProducts");
-          sweet({
-            title: "Delete Product",
-            text: msg,
-            icon: "success",
-            timer: 4000,
-          });
-          location.reload() 
+        const response = await axios.delete(`https://demure-1.onrender.com/product/${prodID}`);
+        if (response.status === 204) {
+          commit('deleteProduct', prodID);
+        } else {
+          console.error('Failed to delete product:', response.statusText);
         }
-      } catch (e) {
-        sweet({
-          title: "Error",
-          text: "Could not delete this item",
-          icon: "error",
-          timer: 4000,
-        });
+      } catch (error) {
+        console.error('Error deleting product:', error);
       }
     },
   },
-  modules: {},
+  modules: {
+    // Add any additional modules here
+  },
 });

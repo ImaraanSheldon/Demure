@@ -303,7 +303,7 @@ h1, h2, h3, h4{
 /* catalog */
 .catalog-left{
     min-height: 420px;
-    /* background: url('../images/catalog_img.png'); */
+    background: url('../images/catalog_img.png');
 }
 .catalog-right{
     -webkit-box-orient: vertical;
