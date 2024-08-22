@@ -1,9 +1,10 @@
 <template>
   <!-- Contact -->
   <div class="contact-form-container mt-5 container9">
+    <h1 class="text-center m-5">Contact Us</h1>
     <div class="row">
-      <section class="contact-info col-md-6">
-        <div class="contact-info-box">
+      <section class="contact-info col-md-6 text-center">
+        <div class="contact-info-box me-5">
           <h2 class="contact-info-title" id="text-glow7">Contact Information</h2>
           <p class="contact-info-subtitle">Say something to start a live chat!</p>
           <div class="contact-info-phone">
@@ -37,7 +38,7 @@
         </div>
       </section>
       <section class="formcarry-container col-md-6">
-        <form action="https://formcarry.com/s/5BAGnwhvgiN" method="POST" enctype="multipart/form-data">
+        <form class="ms-5" action="https://formcarry.com/s/5BAGnwhvgiN" method="POST" enctype="multipart/form-data">
           <div class="formcarry-block">
             <label for="fc-generated-1-name">Full Name</label>
             <input type="text" name="name" id="fc-generated-1-name" placeholder="Your first and last name" />
