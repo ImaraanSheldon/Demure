@@ -3,7 +3,7 @@ CREATE TABLE Users (
     firstName VARCHAR(30) NOT NULL,
     lastName VARCHAR(30) NOT NULL,
     userAge INT NOT NULL,
-    Gender VARCHAR(7) NOT NULL,
+    Gender VARCHAR(7) DEFAULT 'Male' NOT NULL,
     userRole VARCHAR(6) DEFAULT 'user',
     emailAdd VARCHAR(100) NOT NULL UNIQUE,
     userPass VARCHAR(200) NOT NULL,
@@ -29,9 +29,18 @@ VALUES
 
 INSERT INTO Products (prodName, quantity, amount, Category, prodUrl)
 VALUES
-('Laptop', 10, 999.99, 'Electronics', 'http://example.com/laptop'),
-('Headphones', 50, 199.99, 'Electronics', 'http://example.com/headphones'),
-('Coffee Maker', 25, 49.99, 'Home Appliances', 'http://example.com/coffeemaker'),
-('Smartphone', 30, 799.99, 'Electronics', 'http://example.com/smartphone'),
-('Running Shoes', 100, 89.99, 'Sportswear', 'http://example.com/runningshoes');
+('ATBO Birch Cupboard', 15, 149.99, 'Furniture', 'https://imaraansheldon.github.io/Demure/Images/Products/Furniture/ATBO_Birch_Cupboard.jpg'),
+('Mounted Crates', 20, 79.99, 'Storage', 'https://imaraansheldon.github.io/Demure/Images/Products/Storage/Mounted_Crates.jpg'),
+('Gabby Gourd Vase', 25, 59.99, 'Decor', 'https://imaraansheldon.github.io/Demure/Images/Products/Decor/Gabby_Gourd_Vase.jpg'),
+('Karolina Ring Vase', 30, 89.99, 'Decor', 'https://imaraansheldon.github.io/Demure/Images/Products/Decor/Karolina_Ring_Vase.jpg'),
+('Black Fabric Sectional_Sofa', 10, 799.99, 'Furniture', 'https://imaraansheldon.github.io/Demure/Images/Products/Furniture/Black_Fabric_Sectional_Sofa.jpg'),
+('Black Wood-Framed Black Padded Armchair', 12, 199.99, 'Furniture', 'https://imaraansheldon.github.io/Demure/Images/Products/Furniture/Black_Wooden_Framed_Black_Padded_Armchair.jpg'),
+('Martin_Pechy_Couch_Brown', 8, 999.99, 'Furniture', 'https://imaraansheldon.github.io/Demure/Images/Products/Furniture/Martin_Pechy_Couch_Brown.jpg');
+
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM Products;
+DELETE FROM Users;
+TRUNCATE TABLE Products;
+TRUNCATE TABLE Users;
+
 
