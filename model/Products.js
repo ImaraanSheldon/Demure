@@ -48,12 +48,12 @@ class Products {
     fetchProduct(req, res) {
         try {
             const strQry = `
-            SELECT productID, prodName, quantity, amount, Category, prodUrl
+            SELECT prodID, prodName, quantity, amount, Category, prodUrl
             FROM Products
             WHERE productID = ${req.params.id};
             `
             db.query(strQry, (err, result) => { 
-                if (err) throw new Error(err.message)
+                if (err) throw new Error('unable to retrieve a product')
                 res.json({
                     status: res.statusCode,
                     result: result[0]
