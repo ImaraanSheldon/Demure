@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import sweet from 'sweetalert'; // Importing sweetalert
 
 export default createStore({
   state: {
@@ -63,12 +64,12 @@ export default createStore({
       }
     },
 
-    async addProduct({ commit }, productData) {
+    async addProduct({ commit, dispatch }, productData) {
       try {
         const response = await axios.post('https://demure-1.onrender.com/product/add', productData);
-        dispatch('fetchProducts');
         if (response.status === 201) {
           commit('addProduct', response.data);
+          dispatch('fetchProducts'); // Fetch the updated list of products
         } else {
           console.error('Failed to add product:', response.statusText);
         }
@@ -77,12 +78,12 @@ export default createStore({
       }
     },
 
-    async updateProduct({ commit }, { prodID, productData }) {
+    async updateProduct({ commit, dispatch }, productData ) {
       try {
-        const response = await axios.patch(`https://demure-1.onrender.com/product/${prodID}`, productData);
-        dispatch('fetchProducts');
+        const response = await axios.patch(`https://demure-1.onrender.com/product/${productData.prodID}`, productData);
         if (response.status === 200) {
           commit('updateProduct', response.data);
+          dispatch('fetchProducts'); // Fetch the updated list of products
         } else {
           console.error('Failed to update product:', response.statusText);
         }
@@ -91,14 +92,16 @@ export default createStore({
       }
     },
 
-    async deleteProduct({ commit }, prodID) {
+    async deleteProduct(context, prodID) {
       try {
-        const response = await axios.delete(`https://demure-1.onrender.com/product/${prodID}`);
-        dispatch('fetchProducts');
-        if (response.status === 204) {
-          commit('deleteProduct', prodID);
+        const {msg} = await (await axios.delete(`https://demure-1.onrender.com/product/${prodID}`)).data;
+        if (msg) {
+          // commit('deleteProduct', prodID);
+          context.dispatch('fetchProducts'); // Fetch the updated list of products
+          sweet("Product Deleted!", "The product has been successfully deleted.", "success");
         } else {
-          console.error('Failed to delete product:', response.statusText);
+          // console.error('Failed to delete product:', response.statusText);
+          sweet("Error", `Failed to delete product: ${response.statusText}`, "error");
         }
       } catch (error) {
         console.error('Error deleting product:', error);

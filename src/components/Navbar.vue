@@ -55,16 +55,6 @@
           </ul>
           <!-- end of nav list -->
 
-          <!-- Account icons -->
-          <!-- <div class="d-flex">
-            <router-link to="/profile" class="btn text-white">
-              <i class="fas fa-person"></i>
-            </router-link>
-            <router-link to="/cart" class="btn text-white ms-2">
-              <i class="fas fa-shopping-basket"></i>
-            </router-link>
-          </div> -->
-          <!-- end of account icons -->
         </div>
         <!-- end of main navigation list -->
       </div>
