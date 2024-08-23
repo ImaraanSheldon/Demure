@@ -4,7 +4,7 @@ class Products {
     fetchProducts(req, res) {
         try {
             const strQry = `
-            SELECT prodName, quantity, amount, Category, prodUrl
+            SELECT prodID, prodName, quantity, amount, Category, prodUrl
             FROM Products;
             `
             db.query(strQry, (err, results) => {
