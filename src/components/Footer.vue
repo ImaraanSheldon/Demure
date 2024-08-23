@@ -1,6 +1,12 @@
 <template>
     <footer class="footer-container container-fluid" id="full-footer">
-      <div class="footer-logo">
+        <div class="row">
+            <div class="col-sm-4 d-flex flex-column align-items-center">1</div>
+            <div class="col-sm-4 d-flex flex-column align-items-center">2</div>
+            <div class="col-sm-4 d-flex flex-column align-items-center">3</div>
+            <div class="col-sm-12 d-flex flex-column align-items-center">DEMURE@2024</div>
+        </div>
+      <!-- <div class="footer-logo">
         <img src="" alt="nav-logo" />
       </div>
       <div class="footer-links">
@@ -41,7 +47,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </div> -->
     </footer>
   </template>
   
@@ -52,7 +58,7 @@
   </script>
   
 <style scoped>
-  .footer-container {
+  /* .footer-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -62,7 +68,7 @@
     box-sizing: border-box;
     padding: 1rem;
     color: var(--white-color);
-  }
+  } */
   
   .footer-logo img {
     height: 100px;

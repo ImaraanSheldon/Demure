@@ -2,15 +2,25 @@
     <div class="products-view">
       <h1>Products</h1>
       <div class="products-grid">
-        <div v-for="product in products" :key="product.prodID" class="product-card">
-          <img :src="product.prodUrl" :alt="product.prodName" class="product-image" />
-          <div class="product-details">
-            <h2 class="product-name">{{ product.prodName }}</h2>
+        <CardComp
+          v-for="product in products"
+          :key="product.prodID"
+        >
+          <template #prod-img>
+            <img :src="product.prodUrl" :alt="product.prodName" class="product-image" />
+          </template>
+          <template #prod-title>
+            {{ product.prodName }}
+          </template>
+          <template #Desc>
             <p class="product-category">{{ product.Category }}</p>
             <p class="product-quantity">Quantity: {{ product.quantity }}</p>
             <p class="product-amount">${{ product.amount }}</p>
-          </div>
-        </div>
+          </template>
+          <template #actions>
+            <router-link :to="{name: 'product', params: {id: product.prodID}}" class="view-details-button">View details</router-link>
+        </template>
+        </CardComp>
       </div>
     </div>
   </template>
@@ -18,8 +28,12 @@
   <script>
   import { computed, onMounted } from 'vue';
   import { useStore } from 'vuex';
+  import CardComp from '@/components/Card.vue';
   
   export default {
+    components: {
+      CardComp,
+    },
     setup() {
       const store = useStore();
   
@@ -48,37 +62,24 @@
     gap: 1rem;
   }
   
-  .product-card {
-    background-color: var(--white-color);
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
-  
-  .product-card:hover {
-    transform: scale(1.02);
-  }
-  
   .product-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
   }
   
-  .product-details {
-    padding: 1rem;
+  .view-details-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--brown-color);
+    color: var(--white-color);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color var(--transition);
   }
   
-  .product-name {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .product-category,
-  .product-quantity,
-  .product-amount {
-    margin: 0.25rem 0;
+  .view-details-button:hover {
+    background-color: var(--dark-color);
   }
   </style>
   

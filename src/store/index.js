@@ -7,8 +7,12 @@ export default createStore({
     product: null, // To store a single product
   },
   getters: {
-    allProducts: (state) => state.products,
-    productById: (state) => (id) => state.products.find((product) => product.prodID === id),
+    allProducts(state) {
+      return state.products;
+    },
+    singleProduct(state) {
+      return state.product;
+    },
   },
   mutations: {
     setProducts(state, products) {
@@ -44,14 +48,16 @@ export default createStore({
       }
     },
 
-    async fetchProductById({ commit }, prodID) {
+    async fetchProduct({ commit }, prodID) {
       try {
-        const response = await axios.get(`https://demure-1.onrender.com/product/${prodID}`);
-        if (response.status === 200) {
-          commit('setProduct', response.data);
-        } else {
-          console.error('Failed to fetch product:', response.statusText);
-        }
+        // const response = await axios.get(`https://demure-1.onrender.com/product/${prodID}`);
+        // const product = await response.json();
+        const {result} = await (await axios.get(`https://demure-1.onrender.com/product/${prodID}`)).data
+        console.log(result);
+        
+        if (result) {
+          commit('setProduct', result);
+        } 
       } catch (error) {
         console.error('Error fetching product:', error);
       }
@@ -60,6 +66,7 @@ export default createStore({
     async addProduct({ commit }, productData) {
       try {
         const response = await axios.post('https://demure-1.onrender.com/product/add', productData);
+        dispatch('fetchProducts');
         if (response.status === 201) {
           commit('addProduct', response.data);
         } else {
@@ -73,6 +80,7 @@ export default createStore({
     async updateProduct({ commit }, { prodID, productData }) {
       try {
         const response = await axios.patch(`https://demure-1.onrender.com/product/${prodID}`, productData);
+        dispatch('fetchProducts');
         if (response.status === 200) {
           commit('updateProduct', response.data);
         } else {
@@ -86,6 +94,7 @@ export default createStore({
     async deleteProduct({ commit }, prodID) {
       try {
         const response = await axios.delete(`https://demure-1.onrender.com/product/${prodID}`);
+        dispatch('fetchProducts');
         if (response.status === 204) {
           commit('deleteProduct', prodID);
         } else {
