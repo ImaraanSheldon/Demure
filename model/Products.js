@@ -53,7 +53,7 @@ class Products {
             WHERE productID = ${req.params.id};
             `
             db.query(strQry, (err, result) => { 
-                if (err) throw new Error('Unable to retrieve a product')
+                if (err) throw new Error(err.message)
                 res.json({
                     status: res.statusCode,
                     result: result[0]
