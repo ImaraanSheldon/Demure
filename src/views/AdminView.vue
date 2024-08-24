@@ -1,70 +1,146 @@
 <template>
   <div class="admin-view">
-    <h1>Admin Panel - Product Management</h1>
+    <h1>Admin Panel - Product & User Management</h1>
 
-    <!-- Form to Add or Update a Product -->
-    <div class="product-form">
-      <h2>{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h2>
-      <form @submit.prevent="isEditing ? updateProduct() : addProduct()">
-        <div class="form-group">
-          <label for="prodName">Product Name</label>
-          <input type="text" v-model="productForm.prodName" required />
-        </div>
-        <div class="form-group">
-          <label for="quantity">Quantity</label>
-          <input type="number" v-model="productForm.quantity" required />
-        </div>
-        <div class="form-group">
-          <label for="amount">Price</label>
-          <input type="number" v-model="productForm.amount" step="0.01" required />
-        </div>
-        <div class="form-group">
-          <label for="Category">Category</label>
-          <input type="text" v-model="productForm.Category" required />
-        </div>
-        <div class="form-group">
-          <label for="prodUrl">Product Image URL</label>
-          <input type="text" v-model="productForm.prodUrl" required />
-        </div>
-        <div class="form-actions">
-          <button type="submit">{{ isEditing ? 'Update Product' : 'Add Product' }}</button>
-          <button v-if="isEditing" type="button" @click="cancelEdit">Cancel</button>
-        </div>
-      </form>
-    </div>
+    <!-- Product Management -->
+    <div class="product-management">
+      <h2>Product Management</h2>
+      <!-- Form to Add or Update a Product -->
+      <div class="product-form">
+        <h3>{{ isEditingProduct ? 'Edit Product' : 'Add New Product' }}</h3>
+        <form @submit.prevent="isEditingProduct ? updateProduct() : addProduct()">
+          <div class="form-group">
+            <label for="prodName">Product Name</label>
+            <input type="text" v-model="productForm.prodName" required />
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" v-model="productForm.quantity" required />
+          </div>
+          <div class="form-group">
+            <label for="amount">Price</label>
+            <input type="number" v-model="productForm.amount" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label for="Category">Category</label>
+            <input type="text" v-model="productForm.Category" required />
+          </div>
+          <div class="form-group">
+            <label for="prodUrl">Product Image URL</label>
+            <input type="text" v-model="productForm.prodUrl" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit">{{ isEditingProduct ? 'Update Product' : 'Add Product' }}</button>
+            <button v-if="isEditingProduct" type="button" @click="cancelEditProduct">Cancel</button>
+          </div>
+        </form>
+      </div>
 
-    <!-- Product List -->
-    <div class="product-list">
-      <h2>All Products</h2>
-      <div v-if="products.length">
-        <div v-for="product in products" :key="product.prodID" class="product-card">
-          <div class="product-info">
-            <h3>{{ product.prodName }}</h3>
-            <p><strong>Category:</strong> {{ product.Category }}</p>
-            <p><strong>Quantity:</strong> {{ product.quantity }}</p>
-            <p><strong>Price:</strong> ${{ product.amount }}</p>
+      <!-- Product List -->
+      <div class="product-list">
+        <h3>All Products</h3>
+        <div v-if="products.length">
+          <div v-for="product in products" :key="product.prodID" class="product-card">
+            <div class="product-info">
+              <h4>{{ product.prodName }}</h4>
+              <p><strong>Category:</strong> {{ product.Category }}</p>
+              <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+              <p><strong>Price:</strong> ${{ product.amount }}</p>
+            </div>
+            <div class="product-actions">
+              <button @click="editProduct(product)">Edit</button>
+              <button @click="deleteProduct(product.prodID)">Delete</button>
+            </div>
           </div>
-          <div class="product-actions">
-            <button @click="editProduct(product)">Edit</button>
-            <button @click="deleteProduct(product.prodID)">Delete</button>
-          </div>
+        </div>
+        <div v-else>
+          <p>No products available.</p>
         </div>
       </div>
-      <div v-else>
-        <p>No products available.</p>
+    </div>
+
+<!-- User Management -->
+<div class="user-management">
+  <h2>User Management</h2>
+  <!-- Form to Add or Update a User -->
+  <div class="user-form">
+    <h3>{{ isEditingUser ? 'Edit User' : 'Add New User' }}</h3>
+    <form @submit.prevent="isEditingUser ? updateUser() : addUser()">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" v-model="userForm.firstName" required />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" v-model="userForm.lastName" required />
+      </div>
+      <div class="form-group">
+        <label for="userAge">Age</label>
+        <input type="number" v-model="userForm.userAge" required />
+      </div>
+      <div class="form-group">
+        <label for="Gender">Gender</label>
+        <input type="text" v-model="userForm.Gender" required />
+      </div>
+      <div class="form-group">
+        <label for="userRole">Role</label>
+        <input type="text" v-model="userForm.userRole" required />
+      </div>
+      <div class="form-group">
+        <label for="emailAdd">Email</label>
+        <input type="email" v-model="userForm.emailAdd" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" v-model="userForm.userPass" required />
+      </div>
+      <div class="form-group">
+        <label for="userProfile">Profile</label>
+        <textarea v-model="userForm.userProfile"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit">{{ isEditingUser ? 'Update User' : 'Add User' }}</button>
+        <button v-if="isEditingUser" type="button" @click="cancelEditUser">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- User List -->
+  <div class="user-list">
+    <h3>All Users</h3>
+    <div v-if="users.length">
+      <div v-for="user in users" :key="user.userID" class="user-card">
+        <div class="user-info">
+          <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+          <p><strong>Email:</strong> {{ user.emailAdd }}</p>
+          <p><strong>Role:</strong> {{ user.userRole }}</p>
+          <p><strong>Age:</strong> {{ user.userAge }}</p>
+        </div>
+        <div class="user-actions">
+          <button @click="editUser(user)">Edit</button>
+          <button @click="deleteUser(user.userID)">Delete</button>
+        </div>
       </div>
     </div>
+    <div v-else>
+      <p>No users available.</p>
+    </div>
+  </div>
+</div>
+
   </div>
 </template>
 
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import sweet from 'sweetalert'; // Importing sweetalert
+import sweet from 'sweetalert';
 
 export default {
   setup() {
     const store = useStore();
+
+    // Product state and methods
     const productForm = ref({
       prodName: '',
       quantity: '',
@@ -72,7 +148,7 @@ export default {
       Category: '',
       prodUrl: ''
     });
-    const isEditing = ref(false);
+    const isEditingProduct = ref(false);
     const editingProductId = ref(null);
 
     onMounted(() => {
@@ -83,34 +159,32 @@ export default {
 
     const addProduct = async () => {
       await store.dispatch('addProduct', productForm.value);
-      resetForm();
+      resetProductForm();
       sweet("Product Added!", "The product has been successfully added.", "success");
     };
 
     const editProduct = (product) => {
       productForm.value = { ...product };
-      isEditing.value = true;
+      isEditingProduct.value = true;
       editingProductId.value = product.prodID;
     };
 
     const updateProduct = async () => {
       await store.dispatch('updateProduct', { ...productForm.value, prodID: editingProductId.value });
-      resetForm();
+      resetProductForm();
       sweet("Product Updated!", "The product has been successfully updated.", "success");
     };
 
-    const deleteProduct =  (prodID) => {
-      console.log(prodID);
-      
-       store.dispatch('deleteProduct', prodID);
-      
+    const deleteProduct = async (prodID) => {
+      await store.dispatch('deleteProduct', prodID);
+      sweet("Product Deleted!", "The product has been successfully deleted.", "success");
     };
 
-    const cancelEdit = () => {
-      resetForm();
+    const cancelEditProduct = () => {
+      resetProductForm();
     };
 
-    const resetForm = () => {
+    const resetProductForm = () => {
       productForm.value = {
         prodName: '',
         quantity: '',
@@ -118,28 +192,99 @@ export default {
         Category: '',
         prodUrl: ''
       };
-      isEditing.value = false;
+      isEditingProduct.value = false;
       editingProductId.value = null;
+    };
+
+    // User state and methods
+    const userForm = ref({
+      firstName: '',
+      lastName: '',
+      userAge: '',
+      Gender: '',
+      userRole: '',
+      emailAdd: '',
+      userPass: '',  
+      userProfile: ''
+    });
+    const isEditingUser = ref(false);
+    const editingUserId = ref(null);
+
+    onMounted(() => {
+      store.dispatch('fetchUsers');
+    });
+
+    const users = computed(() => store.getters.allUsers);
+
+    const addUser = async () => {
+      await store.dispatch('addUser', userForm.value);
+      resetUserForm();
+      sweet("User Added!", "The user has been successfully added.", "success");
+    };
+
+    const editUser = (user) => {
+      userForm.value = { ...user };
+      isEditingUser.value = true;
+      editingUserId.value = user.userID;
+    };
+
+    const updateUser = async () => {
+      await store.dispatch('updateUser', { ...userForm.value, userID: editingUserId.value });
+      resetUserForm();
+      sweet("User Updated!", "The user has been successfully updated.", "success");
+    };
+
+    const deleteUser = async (userID) => {
+      await store.dispatch('deleteUser', userID);
+      sweet("User Deleted!", "The user has been successfully deleted.", "success");
+    };
+
+    const cancelEditUser = () => {
+      resetUserForm();
+    };
+
+    const resetUserForm = () => {
+      userForm.value = {
+        firstName: '',
+        lastName: '',
+        userAge: '',
+        Gender: '',
+        userRole: '',
+        emailAdd: '',
+        userPass: '',  
+        userProfile: ''
+      };
+      isEditingUser.value = false;
+      editingUserId.value = null;
     };
 
     return {
       productForm,
       products,
-      isEditing,
+      isEditingProduct,
       addProduct,
       editProduct,
       updateProduct,
       deleteProduct,
-      cancelEdit
+      cancelEditProduct,
+      userForm,
+      users,
+      isEditingUser,
+      addUser,
+      editUser,
+      updateUser,
+      deleteUser,
+      cancelEditUser
     };
   }
 };
 </script>
 
+
 <style scoped>
 .admin-view {
   padding: 2rem;
-  max-width: 800px;
+  max-width: 1200px;
   margin: auto;
   background-color: var(--light-grey-color);
   border-radius: 8px;
@@ -151,7 +296,11 @@ h1, h2 {
   color: var(--dark-color);
 }
 
-.product-form {
+.product-management, .user-management {
+  margin-bottom: 3rem;
+}
+
+.product-form, .user-form {
   margin-bottom: 2rem;
   padding: 1rem;
   background-color: var(--white-color);
@@ -169,7 +318,7 @@ h1, h2 {
   color: var(--dark-grey-color);
 }
 
-.form-group input {
+.form-group input, .form-group textarea {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--dark-grey-color);
@@ -203,11 +352,11 @@ button:hover:enabled {
   background-color: var(--dark-color);
 }
 
-.product-list {
+.product-list, .user-list {
   margin-top: 2rem;
 }
 
-.product-card {
+.product-card, .user-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -219,22 +368,22 @@ button:hover:enabled {
   box-shadow: var(--box-shadow);
 }
 
-.product-info h3 {
+.product-info h4, .user-info h4 {
   margin: 0 0 0.5rem;
   color: var(--dark-color);
 }
 
-.product-actions button {
+.product-actions button, .user-actions button {
   margin-left: 0.5rem;
 }
 
 @media (max-width: 768px) {
-  .product-card {
+  .product-card, .user-card {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .product-actions {
+  .product-actions, .user-actions {
     margin-top: 1rem;
     width: 100%;
     display: flex;

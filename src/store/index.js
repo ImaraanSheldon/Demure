@@ -6,6 +6,7 @@ export default createStore({
   state: {
     products: [],
     product: null, // To store a single product
+    users: [],
   },
   getters: {
     allProducts(state) {
@@ -14,6 +15,8 @@ export default createStore({
     singleProduct(state) {
       return state.product;
     },
+    allUsers: state => state.users,
+    getUserById: state => id => state.users.find(user => user.userID === id),
   },
   mutations: {
     setProducts(state, products) {
@@ -33,6 +36,21 @@ export default createStore({
     },
     deleteProduct(state, prodID) {
       state.products = state.products.filter((product) => product.prodID !== prodID);
+    },
+    SET_USERS(state, users) {
+      state.users = users;
+    },
+    ADD_USER(state, user) {
+      state.users.push(user);
+    },
+    UPDATE_USER(state, updatedUser) {
+      const index = state.users.findIndex(user => user.userID === updatedUser.userID);
+      if (index !== -1) {
+        state.users.splice(index, 1, updatedUser);
+      }
+    },
+    DELETE_USER(state, userID) {
+      state.users = state.users.filter(user => user.userID !== userID);
     },
   },
   actions: {
@@ -105,6 +123,50 @@ export default createStore({
         }
       } catch (error) {
         console.error('Error deleting product:', error);
+      }
+    },
+    async fetchUsers({ commit }) {
+      try {
+        const response = await axios.get('https://demure-1.onrender.com/user');
+        commit('SET_USERS', response.data.results);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    },
+    async addUser({ commit, dispatch }, userData) {
+      try {
+        console.log('there');
+        
+        const response = await axios.post('https://demure-1.onrender.com/user/register', userData);
+        console.log(response);
+        
+        if (response.status === 201) {
+          // Fetch updated users list
+          dispatch('fetchUsers');
+          sweet("User Added!", "The user has been successfully added.", "success");
+        } else {
+          sweet("Error", `Failed to add user: ${response.statusText}`, "error");
+        }
+      } catch (error) {
+        sweet("Error", "An error occurred while adding the user. Please try again.", "error");
+        console.error('Error adding user:', error);
+      }
+    },
+    
+    async updateUser({ commit }, userData) {
+      try {
+        const response = await axios.patch(`https://demure-1.onrender.com/user/${userData.userID}`, userData);
+        commit('UPDATE_USER', response.data);
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
+    },
+    async deleteUser({ commit }, userID) {
+      try {
+        await axios.delete(`https://demure-1.onrender.com/user/${userID}`);
+        commit('DELETE_USER', userID);
+      } catch (error) {
+        console.error('Error deleting user:', error);
       }
     },
   },
