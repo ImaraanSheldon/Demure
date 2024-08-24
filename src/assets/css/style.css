@@ -133,55 +133,6 @@ h1, h2, h3, h4{
     color: var(--brown-color);
 }
 
-#side-navbar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: 100%;
-    padding: 6rem 2rem 0 3.4rem;
-    -webkit-box-shadow: var(--box-shadow);
-            box-shadow: var(--box-shadow);
-    -webkit-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-            transform: translateX(-100%);
-    -webkit-transition: var(--transition);
-    -o-transition: var(--transition);
-    transition: var(--transition);
-}
-
-/* show navbar class - js related */
-.side-navbar-show{
-    -webkit-transform: translateX(0)!important;
-        -ms-transform: translateX(0)!important;
-            transform: translateX(0)!important;
-}
-#side-navbar li{
-    margin: 2.4rem 0;
-}
-#side-navbar li a{
-    -webkit-transition: var(--transition);
-    -o-transition: var(--transition);
-    transition: var(--transition);
-}
-#side-navbar li a:hover{
-    color: var(--brown-color);
-}
-.navbar-hide-btn{
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-}
-.navbar-hide-btn i{
-    font-size: 2.6rem;
-    -webkit-transition: var(--transition);
-    -o-transition: var(--transition);
-    transition: var(--transition);
-}
-.navbar-hide-btn:hover i{
-    color: var(--brown-color)!important;
-}
-
 /* header */
 .header{
     position: relative;

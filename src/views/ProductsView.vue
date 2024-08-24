@@ -23,6 +23,9 @@
       </select>
     </div>
     
+    <!-- Spinner Component -->
+    <Spinner v-if="loading" />
+
     <div class="products-grid">
       <CardComp
         v-for="product in filteredProducts"
@@ -45,6 +48,12 @@
           </router-link>
         </template>
       </CardComp>
+      <div :else>
+        <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
+  </div>
+      </div>
     </div>
   </div>
 </template>
@@ -53,10 +62,12 @@
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import CardComp from '@/components/Card.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default {
   components: {
     CardComp,
+    Spinner
   },
   setup() {
     const store = useStore();
