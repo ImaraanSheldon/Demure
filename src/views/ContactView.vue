@@ -4,7 +4,7 @@
     <h1 class="text-center m-5">Contact Us</h1>
     <div class="row">
       <section class="contact-info col-md-6 text-center">
-        <div class="contact-info-box me-5">
+        <div class="contact-info-box me-md-5">
           <h2 class="contact-info-title" id="text-glow7">Contact Information</h2>
           <p class="contact-info-subtitle">Say something to start a live chat!</p>
           <div class="contact-info-phone">

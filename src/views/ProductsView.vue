@@ -29,7 +29,7 @@
         :key="product.prodID"
       >
         <template #prod-img>
-          <img :src="product.prodUrl" :alt="product.prodName" class="product-image" />
+          <img :src="product.prodUrl" class="product-image" />
         </template>
         <template #prod-title>
           {{ product.prodName }}
